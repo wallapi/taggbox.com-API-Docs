@@ -196,13 +196,13 @@ app.listen(PORT, () => console.log(`Social wall running on http://localhost:${PO
 
 Paste this into any coding agent, together with the contents of
 [llms.txt](../llms.txt) (the API reference the agent needs — also at
-https://raw.githubusercontent.com/taggbox-org/Taggbox-API-Docs/main/llms.txt for agents that can browse). Switch the
+https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/llms.txt for agents that can browse). Switch the
 language line to Node.js if you prefer.
 
 ```
 I want to build a social wall - a single web page that displays a live
 feed of social media posts aggregated by Taggbox. The complete API
-specification is at https://raw.githubusercontent.com/taggbox-org/Taggbox-API-Docs/main/llms.txt (fetch it; if you cannot browse, ask me to paste it); follow it exactly for endpoints,
+specification is at https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/llms.txt (fetch it; if you cannot browse, ask me to paste it); follow it exactly for endpoints,
 field names and the response envelope.
 
 The wall pulls its content from GET {BASE}/v3/posts using my access token.
@@ -268,8 +268,8 @@ The rules are identical everywhere; only the filename changes:
 # Taggbox social wall - project context
 
 Data source: GET {TAGGBOX_API_BASE}/v3/posts
-API docs: https://github.com/taggbox-org/Taggbox-API-Docs
-API spec: https://raw.githubusercontent.com/taggbox-org/Taggbox-API-Docs/main/llms.txt
+API docs: https://github.com/wallapi/taggbox.com-API-Docs
+API spec: https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/llms.txt
 (a local llms.txt copy may also be in this folder) - follow it exactly for endpoints,
 field names and the response envelope ({ status, message, code, body }).
 

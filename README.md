@@ -13,15 +13,7 @@ whole API — and see the [prompt library](guides/prompts.md) and the
 ## General
 
 - **Version:** v3
-- **Base URL:** use the host of the brand your account is on — the API is
-  identical on both:
-
-  | Brand | Base URL |
-  |---|---|
-  | Taggbox | `https://staging-apis.taggbox.com/api` |
-  | Tagembed | `https://staging-apis.tagembed.com/api` |
-
-  Examples in these docs use the Taggbox host; swap the domain for Tagembed.
+- **Base URL:** `https://staging-apis.taggbox.com/api`
 - **Format:** JSON only, over HTTPS
 - **Access:** read-only — there are no create/update/delete endpoints.
   Creating, moderating, hiding and pinning posts happens in your dashboard,

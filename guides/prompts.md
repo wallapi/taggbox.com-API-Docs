@@ -44,7 +44,7 @@ You cannot access my filesystem, so work in "deliverable mode":
    not a diff.
 
 The full API specification is pasted below as llms.txt (also at
-   https://raw.githubusercontent.com/taggbox-org/Taggbox-API-Docs/main/llms.txt) - follow it
+   https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/llms.txt) - follow it
 exactly for endpoints, field names and the response envelope.
 ```
 
@@ -58,7 +58,7 @@ examples of exactly this).
 ```
 Build me a social wall - a single web page showing the live feed from
 the Taggbox v3 API (spec attached as llms.txt, also at
-https://raw.githubusercontent.com/taggbox-org/Taggbox-API-Docs/main/llms.txt).
+https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/llms.txt).
 
 Choices:
 - Language: [PHP | Node.js + Express | Python + Flask]

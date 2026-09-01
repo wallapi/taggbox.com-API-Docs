@@ -9,13 +9,11 @@ together with your task, e.g.:
    is in the TAGGBOX_ACCESS_TOKEN environment variable."
 
 Everything an integration needs is in this file; no other docs are required.
-Human-readable docs: https://github.com/taggbox-org/Taggbox-API-Docs
+Human-readable docs: https://github.com/wallapi/taggbox.com-API-Docs
 
 ## Facts
 
-- Base URL: https://staging-apis.taggbox.com/api (Taggbox accounts) or
-  https://staging-apis.tagembed.com/api (Tagembed accounts) - the API is
-  identical on both hosts
+- Base URL: https://staging-apis.taggbox.com/api
 - Protocol: HTTPS, JSON only. All endpoints are GET. The API is READ-ONLY —
   there are no create/update/delete endpoints.
 - Auth: every request needs a credential, one of:
