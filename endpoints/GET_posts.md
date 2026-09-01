@@ -37,14 +37,14 @@ Call the API from your server only — the access token must never reach a brows
 **cURL**
 
 ```bash
-curl -s 'https://apis.taggbox.com/api/v3/posts?networks=instagram&media_types=image&sort=-created_at&limit=2' \
+curl -s 'https://staging-apis.taggbox.com/api/v3/posts?networks=instagram&media_types=image&sort=-created_at&limit=2' \
   -H 'Authorization: Bearer YOUR_ACCESS_TOKEN'
 ```
 
 **Node.js** (18+, native `fetch`)
 
 ```js
-const BASE = 'https://apis.taggbox.com/api';
+const BASE = 'https://staging-apis.taggbox.com/api';
 const KEY = process.env.TAGGBOX_ACCESS_TOKEN;
 
 const url = new URL(`${BASE}/v3/posts`);
@@ -67,7 +67,7 @@ console.log(body.posts, body.paging);
 
 ```php
 <?php
-$base = 'https://apis.taggbox.com/api';
+$base = 'https://staging-apis.taggbox.com/api';
 $key  = getenv('TAGGBOX_ACCESS_TOKEN');
 
 $query = http_build_query([

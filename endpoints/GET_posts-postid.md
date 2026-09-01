@@ -22,7 +22,7 @@ GET /v3/posts/:postid
 **cURL**
 
 ```bash
-curl -s 'https://apis.taggbox.com/api/v3/posts/post_4421?expand=products' \
+curl -s 'https://staging-apis.taggbox.com/api/v3/posts/post_4421?expand=products' \
   -H 'Authorization: Bearer YOUR_ACCESS_TOKEN'
 ```
 

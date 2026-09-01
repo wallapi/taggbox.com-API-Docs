@@ -13,7 +13,9 @@ Human-readable docs: https://github.com/taggbox-org/Taggbox-API-Docs
 
 ## Facts
 
-- Base URL: https://apis.taggbox.com/api
+- Base URL: https://staging-apis.taggbox.com/api (Taggbox accounts) or
+  https://staging-apis.tagembed.com/api (Tagembed accounts) - the API is
+  identical on both hosts
 - Protocol: HTTPS, JSON only. All endpoints are GET. The API is READ-ONLY —
   there are no create/update/delete endpoints.
 - Auth: every request needs a credential, one of:
