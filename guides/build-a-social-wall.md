@@ -206,6 +206,8 @@ specification is at https://raw.githubusercontent.com/wallapi/taggbox.com-API-Do
 field names and the response envelope.
 
 The wall pulls its content from GET {BASE}/v3/posts using my access token.
+Do not ask me anything before writing code: the base URL is in the spec and
+the token comes from an environment variable. Give me the complete code first.
 
 Please build it with these requirements:
 
@@ -291,6 +293,9 @@ Rules for all code in this project:
 
 Optionally copy `llms.txt` into the project so the agent can read the spec
 locally.
+
+Step-by-step per tool (install, setup commands for the context file, a PHP
+and a Node.js prompt, run commands): [../prompts/README.md](../prompts/README.md).
 
 Three habits make this land well in any tool: give the agent the spec
 (../llms.txt) instead of letting it guess field names, state the constraints

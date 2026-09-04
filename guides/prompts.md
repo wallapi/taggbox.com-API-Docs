@@ -13,6 +13,10 @@ paste it into your AI — every prompt works in both modes:
   complete and ready to save, plus a setup checklist telling you where each
   file goes and what to configure.
 
+Want a tool-specific walkthrough instead (install, where the context file
+goes, PHP and Node.js prompts, run commands)? Use the per-tool documents in
+[../prompts/README.md](../prompts/README.md).
+
 Always attach or paste the contents of [llms.txt](../llms.txt) with the first
 message — it is the API spec (endpoints, field names, envelope, pagination);
 without it the AI will guess.
@@ -174,6 +178,12 @@ Show me exactly what to install and which env vars to add
 2. **State the constraints** — they are what separate a demo from shippable:
    key server-side in an env var, 5-minute cache with stale fallback,
    escaped output, cursor pagination via `next_cursor`.
-3. **Iterate in small steps**: one prompt = one change ("make it masonry",
+3. **Never write "ask me first"**: a browser AI that is told to ask before
+   starting will end its turn with questions and a plan, and the code only
+   arrives after you answer (Gemini does this literally). The base URL is in
+   `llms.txt` and the token comes from `TAGGBOX_ACCESS_TOKEN`, so nothing needs
+   asking. If you want the AI to confirm something, say "build it now with
+   sensible defaults and list your assumptions at the end".
+4. **Iterate in small steps**: one prompt = one change ("make it masonry",
    "swap file cache for Redis"). When something breaks, paste the exact error
    back and ask for the corrected complete file.

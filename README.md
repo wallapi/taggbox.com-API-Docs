@@ -105,4 +105,7 @@ hand.
   display, with complete PHP and Node.js implementations
 - **[Prompt library](guides/prompts.md)** — copy-paste prompts for building
   and integrating with any AI coding agent
+- **[Prompts by tool](prompts/README.md)** — one document per AI (ChatGPT,
+  Gemini, claude.ai, Claude Code, Cursor, Codex, Copilot, Gemini CLI,
+  Windsurf) with a PHP and a Node.js prompt, setup and run commands
 - **[llms.txt](llms.txt)** — the whole API as one file, written for LLMs
