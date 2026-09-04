@@ -9,6 +9,8 @@ together with your task, e.g.:
    is in the TAGGBOX_ACCESS_TOKEN environment variable."
 
 Everything an integration needs is in this file; no other docs are required.
+Agents: fetch this file raw (curl the URL above); a summarising fetch drops
+field names.
 Human-readable docs: https://github.com/wallapi/taggbox.com-API-Docs
 
 ## Facts
@@ -29,7 +31,10 @@ Human-readable docs: https://github.com/wallapi/taggbox.com-API-Docs
   exhausted the API answers 401 with an explanatory message.
 - Every success response is wrapped in an envelope; the payload is in `body`:
   { "status": true, "message": "Operation successful", "code": 200, "body": { ... } }
-- Errors: 401 (bad/missing key, API off, daily limit — message says which),
+- Errors: 401 — message says which: "Missing credentials — send `Authorization:
+  Bearer <token>`", "Invalid Token" (bad or revoked wall token), "API access is
+  not allowed" (bad account key or API disabled on the plan), or a daily-limit
+  message;
   404 (post not on this account), 422 (invalid parameters). A 422 body lists
   EVERY bad parameter:
   { "status": false, "code": 422, "message": "Validation Failed",
@@ -95,7 +100,7 @@ Use these slugs in ?networks=.
   "pinned": boolean,
   "active": boolean,
   "created_at": "2026-08-30T09:12:44.000Z",   // ISO 8601
-  "created_timestamp": 1787238764,             // unix seconds, same instant
+  "created_timestamp": 1788081164,             // unix seconds, same instant
   "modified_at": string | null,
   "modified_timestamp": number | null,
   "content": { "title": string | null, "text": string },  // plain text, tags stripped
@@ -127,8 +132,8 @@ Notes:
    body.fields to the developer.
 3. For display order, trust the API's default sort (pinned first, newest
    next) unless the task says otherwise.
-4. Cache responses for at least 30–60 seconds instead of calling per page
-   view; respect the 1–2 req/s guideline.
+4. Cache responses for 5 minutes by default (never less than 30 seconds)
+   instead of calling per page view; respect the 1–2 req/s guideline.
 5. Render `content.text` as text, not HTML (it is already entity-decoded and
    tag-stripped). Prefer `media[].cdn_url` for display.
 6. Never block on credentials. Do not stop to ask for the token or the base

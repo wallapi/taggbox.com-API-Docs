@@ -194,57 +194,31 @@ app.listen(PORT, () => console.log(`Social wall running on http://localhost:${PO
 
 ## The universal AI-agent prompt
 
-Paste this into any coding agent, together with the contents of
-[llms.txt](../llms.txt) (the API reference the agent needs — also at
-https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/llms.txt for agents that can browse). Switch the
-language line to Node.js if you prefer.
+Four lines, any agent. Everything else — endpoints, field names, the
+envelope, the caching and security rules, and "code first, questions last" —
+is in [llms.txt](../llms.txt), which the prompt points the agent at. Switch
+the third line to PHP if you prefer.
 
 ```
-I want to build a social wall - a single web page that displays a live
-feed of social media posts aggregated by Taggbox. The complete API
-specification is at https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/llms.txt (fetch it; if you cannot browse, ask me to paste it); follow it exactly for endpoints,
-field names and the response envelope.
-
-The wall pulls its content from GET {BASE}/v3/posts using my access token.
-Do not ask me anything before writing code: the base URL is in the spec and
-the token comes from an environment variable. Give me the complete code first.
-
-Please build it with these requirements:
-
-Tech and structure
-- Language: PHP, delivered as a single self-contained index.php file.
-- Read the access token from the TAGGBOX_ACCESS_TOKEN environment variable and
-  the API base URL from TAGGBOX_API_BASE. Never hard-code either.
-
-Fetching data
-- Call GET /v3/posts with limit=24. The payload is inside the response
-  envelope: body.posts and body.paging.
-- The default sort is already display-ready (pinned posts first, then
-  newest by creation time) - do not override it.
-
-Caching and resilience
-- Cache the API response for 5 minutes; only call the API again when
-  the cache is older than that. This stays inside the rate guideline.
-- If an API request fails, fall back to the last successfully cached
-  response so the wall never renders blank. If there is no cache at
-  all, degrade gracefully to an empty state.
-
-Rendering
-- For each post show: the author (author.name), the network
-  (network.name), the first image or video poster (media[0].cdn_url -
-  omit the element entirely when media is empty), the text
-  (content.text, render as TEXT), and a link to the original post
-  (source.permalink) when present.
-- Escape all output to prevent XSS.
-- Keep the markup simple and semantic; I will add my own CSS later.
-
-Security
-- The access token is private, so all API calls happen server-side, never
-  in the browser.
-
-When you are done, add short comments explaining each part and tell me
-exactly how to set the environment variables and run the page locally.
+Build me a social wall: one web page that shows the live posts from my Taggbox wall.
+API docs: https://github.com/wallapi/taggbox.com-API-Docs - read llms.txt there and follow its "Integration rules for generated code".
+Use Node.js 18+ with Express: server.js and package.json. Token comes from the TAGGBOX_ACCESS_TOKEN env var, so don't ask me for it.
+Give me the complete code first, then tell me how to run it as if I've never used a terminal.
 ```
+
+PHP: `Use PHP 8: one self-contained index.php, nothing to install.`
+
+Browser AI (no filesystem access)? Add a fifth line:
+
+```
+You can't access my computer, so output every file complete and ready to save, starting each with "### FILE: <name>", then a setup checklist.
+```
+
+What a fresh agent does with this: it opens the repo README, fetches llms.txt,
+reads the GET /posts and Post object pages, and writes a server that checks
+the HTTP status and the envelope, keeps the default sort, caches with a stale
+fallback and never lets the token reach the browser. The spec carries the
+rules, so the prompt does not have to.
 
 ## Per-tool context files
 

@@ -51,47 +51,21 @@ attaches it to every request. You can check it under Settings > Rules.
 
 ## 4. Paste ONE of these prompts
 
+Two lines are enough: the rules file and llms.txt in the folder carry the
+details, and the agent reads them on its own.
+
 ### PHP
 
 ```
-Build the Taggbox social wall in this folder. The project rules are in
-.cursor/rules/taggbox.mdc and the API spec is in llms.txt here - follow both exactly,
-including the spec's "Integration rules for generated code".
-
-Tech:
-- PHP 8+, one self-contained index.php. No Composer; use the curl_* functions.
-- File cache: taggbox-cache.json written next to index.php.
-- Must run with the built-in server: php -S localhost:8080
-
-Render per post: author.name, network.name, media[0].cdn_url (omit when
-media is empty), content.text as escaped text, and source.permalink as a
-"View original" link when present. Cache for 5 minutes with stale fallback.
-
-Do not ask me questions - use the defaults above and in .cursor/rules/taggbox.mdc. Create
-the files, run any install command, then tell me the exact commands to set
-TAGGBOX_ACCESS_TOKEN and TAGGBOX_API_BASE and start the page locally.
+Build the Taggbox social wall described in .cursor/rules/taggbox.mdc and llms.txt in this folder. Use PHP 8: one self-contained index.php, nothing to install.
+Don't ask me anything; create the files, then tell me how to run it as if I've never used a terminal.
 ```
 
 ### Node.js
 
 ```
-Build the Taggbox social wall in this folder. The project rules are in
-.cursor/rules/taggbox.mdc and the API spec is in llms.txt here - follow both exactly,
-including the spec's "Integration rules for generated code".
-
-Tech:
-- Node.js 18+ with Express: exactly two files, server.js and package.json.
-  Use the built-in fetch; express is the only dependency.
-- In-memory cache (a module-level variable is fine).
-- Must run with: npm install, then node server.js, on port 3000.
-
-Render per post: author.name, network.name, media[0].cdn_url (omit when
-media is empty), content.text as escaped text, and source.permalink as a
-"View original" link when present. Cache for 5 minutes with stale fallback.
-
-Do not ask me questions - use the defaults above and in .cursor/rules/taggbox.mdc. Create
-the files, run any install command, then tell me the exact commands to set
-TAGGBOX_ACCESS_TOKEN and TAGGBOX_API_BASE and start the page locally.
+Build the Taggbox social wall described in .cursor/rules/taggbox.mdc and llms.txt in this folder. Use Node.js 18+ with Express: server.js and package.json.
+Don't ask me anything; create the files, then tell me how to run it as if I've never used a terminal.
 ```
 
 Approve the file creations it proposes. When it finishes it prints the run

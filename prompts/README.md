@@ -40,11 +40,14 @@ download it to the right path for that tool.
   literally: they stop, ask, and print a plan; the code only comes after
   you answer. The base URL is in the spec and the token comes from an
   environment variable, so there is nothing to ask.
-- **Browser prompts demand complete files with `### FILE:` headers** and a
-  setup checklist, because you will be saving the files by hand.
-- **Editor prompts are short** because the context file and the local
-  `llms.txt` already carry the rules; the prompt only adds the language and
-  the render list.
+- **They are short on purpose.** Four or five lines for a browser AI, two for
+  an editor agent. Every rule (envelope, default sort, cache, escaping, token
+  server-side) is in llms.txt, and a fresh agent given only the repo link
+  fetched the README, llms.txt and the endpoint pages on its own and built
+  the wall correctly. A long prompt just repeats the spec.
+- **Browser prompts add one line** asking for complete files with `### FILE:`
+  headers and a setup checklist, because you will be saving the files by
+  hand.
 - **Both always attach [llms.txt](../llms.txt).** Field names like
   `content.text` and `media[0].cdn_url` are not guessable.
 
