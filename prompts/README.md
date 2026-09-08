@@ -49,7 +49,7 @@ download it to the right path for that tool.
   headers and a setup checklist, because you will be saving the files by
   hand.
 - **Both always attach [llms.txt](../llms.txt).** Field names like
-  `content.text` and `media[0].cdn_url` are not guessable.
+  `content.text` and `media[].cdn_url` are not guessable.
 
 Follow-up prompts (filters, load more, auto-refresh, Redis, design) work in
 every tool and are in [../guides/prompts.md](../guides/prompts.md).

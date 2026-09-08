@@ -106,10 +106,12 @@ layer and caching untouched - CSS/markup changes only.
 ```
 
 ```
-Add a network filter bar above the feed. Build the list from
-GET /v3/networks (server-side, cached with the same TTL), and filter
-with the ?networks= parameter. Selecting a network must go through my
-server route/proxy - never call the Taggbox API from the browser.
+Add a network filter bar above the feed. There is no networks
+parameter: a feed is one network's source on the wall, so filter with
+?feed_ids= using the feed ids of the selected network. Each post
+carries feed_id and network.name, so build the bar from the posts you
+already have. Selecting a filter must go through my server
+route/proxy - never call the Taggbox API from the browser.
 ```
 
 ```
@@ -147,7 +149,7 @@ Show me exactly what to install and which env vars to add
 
 1. **Give the spec, don't let it guess**: attach `llms.txt` in the first
    message (in-editor: keep it in the repo). Field names like
-   `content.text` / `media[0].cdn_url` are not guessable.
+   `content.text` / `media[].cdn_url` are not guessable.
 2. **State the constraints** — they are what separate a demo from shippable:
    key server-side in an env var, 5-minute cache with stale fallback,
    escaped output, cursor pagination via `next_cursor`.

@@ -26,7 +26,8 @@ Rules that matter more than the rest:
   don't need a sort fix. Pass `sort=-created_at` only if you don't want
   pinned posts floated to the top.
 - Escape all output — `content.text` is plain text, render it as text.
-- Prefer `media[].cdn_url` for images.
+- For the image, take the FIRST `media[]` entry whose `type` is `"image"` and
+  use its `cdn_url`. A `"video"` entry is a video file, not a poster image.
 
 ## PHP
 
@@ -96,7 +97,9 @@ $posts = getPosts($base, $accessToken, $cacheFile, $cacheTtl);
     <article>
       <p><strong><?= htmlspecialchars($post['author']['name'] ?? 'Unknown') ?></strong>
         <small><?= htmlspecialchars($post['network']['name'] ?? '') ?></small></p>
-      <?php $img = $post['media'][0]['cdn_url'] ?? null; ?>
+      <?php // a "video" entry is a video FILE, not a poster - take the first image
+            $images = array_filter($post['media'] ?? [], fn($m) => ($m['type'] ?? '') === 'image');
+            $img = $images ? reset($images)['cdn_url'] : null; ?>
       <?php if ($img): ?>
         <img src="<?= htmlspecialchars($img) ?>" alt="" width="300">
       <?php endif; ?>
@@ -164,7 +167,9 @@ function escapeHtml(str = '') {
 }
 
 function renderPost(post) {
-  const image = post.media[0]?.cdn_url;
+  // A "video" entry is a video FILE, not a poster image - only an image
+  // entry belongs in an <img>.
+  const image = post.media?.find((m) => m.type === 'image')?.cdn_url;
   const permalink = post.source?.permalink;
   return `
     <article>
@@ -262,7 +267,8 @@ Rules for all code in this project:
 - Cache API responses for 5 minutes; serve the last good cache if a
   request fails.
 - Render content.text as text and escape all output to prevent XSS.
-- Prefer media[].cdn_url for images.
+- For the image, take the first media[] entry whose type is "image" and use
+  its cdn_url; a "video" entry is a video file, not a poster image.
 ```
 
 Optionally copy `llms.txt` into the project so the agent can read the spec

@@ -96,8 +96,9 @@ hand.
 
 ### Networks
 
-- **[GET /v3/networks](endpoints/GET_networks.md)** — the network slugs
-  accepted by `?networks=`
+- **[GET /v3/networks](endpoints/GET_networks.md)** — the network slug
+  vocabulary a post's `network.slug` is drawn from (a reference list, not a
+  filter — filter by `feed_ids`)
 
 ## Guides
 
