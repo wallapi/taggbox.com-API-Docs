@@ -6,6 +6,16 @@ API spec: https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/ll
 (a local llms.txt copy is in this folder) - follow it exactly for endpoints,
 field names and the response envelope ({ status, message, code, body }).
 
+Two more files complete the brief - fetch them RAW when you can reach the
+network, and say so in one line if you cannot:
+- Build brief (what to build, wiring, what to hand over):
+  https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/widget-build-brief.md
+- Design spec (--tbx-* tokens, dark theme, card treatment, layouts, states):
+  https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/widget-design-spec.md
+  Without it, at least use the brand colours --tbx-purple #613983,
+  --tbx-pink #cc3d6f, --tbx-pink-ink #a82b56, --tbx-pink-lite #eb5c99,
+  --tbx-accent #ff492c on the widget's own root, with a dark theme.
+
 Rules for all code in this project:
 
 - Read the credential from the TAGGBOX_ACCESS_TOKEN env var (an account
