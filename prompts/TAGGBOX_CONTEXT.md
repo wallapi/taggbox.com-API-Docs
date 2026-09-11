@@ -20,7 +20,7 @@ Rules for all code in this project:
 
 - Read the credential from the TAGGBOX_ACCESS_TOKEN env var (an account
   access token or a wt1_ wall token, both work) and the base URL from
-  TAGGBOX_API_BASE (default https://staging-apis.taggbox.com/api). Never
+  TAGGBOX_API_BASE (default https://api.taggbox.com/api). Never
   hard-code either.
 - All Taggbox API calls run server-side; the token must never reach the
   browser.

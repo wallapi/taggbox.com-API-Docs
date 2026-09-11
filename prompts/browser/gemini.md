@@ -76,7 +76,7 @@ macOS / Linux (Terminal):
 ```bash
 cd my-social-wall
 export TAGGBOX_ACCESS_TOKEN="wt1_your_token_here"
-export TAGGBOX_API_BASE="https://staging-apis.taggbox.com/api"
+export TAGGBOX_API_BASE="https://api.taggbox.com/api"
 php -S localhost:8080
 ```
 
@@ -85,7 +85,7 @@ Windows (PowerShell):
 ```powershell
 cd my-social-wall
 $env:TAGGBOX_ACCESS_TOKEN="wt1_your_token_here"
-$env:TAGGBOX_API_BASE="https://staging-apis.taggbox.com/api"
+$env:TAGGBOX_API_BASE="https://api.taggbox.com/api"
 php -S localhost:8080
 ```
 
@@ -117,7 +117,7 @@ macOS / Linux (Terminal):
 cd my-social-wall
 npm install
 export TAGGBOX_ACCESS_TOKEN="wt1_your_token_here"
-export TAGGBOX_API_BASE="https://staging-apis.taggbox.com/api"
+export TAGGBOX_API_BASE="https://api.taggbox.com/api"
 node server.js
 ```
 
@@ -127,7 +127,7 @@ Windows (PowerShell):
 cd my-social-wall
 npm install
 $env:TAGGBOX_ACCESS_TOKEN="wt1_your_token_here"
-$env:TAGGBOX_API_BASE="https://staging-apis.taggbox.com/api"
+$env:TAGGBOX_API_BASE="https://api.taggbox.com/api"
 node server.js
 ```
 

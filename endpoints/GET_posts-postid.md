@@ -30,7 +30,7 @@ credential, not the query.
 **cURL**
 
 ```bash
-curl -s 'https://staging-apis.taggbox.com/api/v3/posts/post_4421' \
+curl -s 'https://api.taggbox.com/api/v3/posts/post_4421' \
   -H 'Authorization: Bearer YOUR_ACCESS_TOKEN'
 ```
 

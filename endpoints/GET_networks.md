@@ -23,7 +23,7 @@ None.
 **cURL**
 
 ```bash
-curl -s 'https://staging-apis.taggbox.com/api/v3/networks' \
+curl -s 'https://api.taggbox.com/api/v3/networks' \
   -H 'Authorization: Bearer YOUR_ACCESS_TOKEN'
 ```
 

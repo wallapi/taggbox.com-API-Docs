@@ -41,7 +41,7 @@ Save as `index.php`, set `TAGGBOX_ACCESS_TOKEN` (and `TAGGBOX_API_BASE`), run
 ```php
 <?php
 // --- Configuration ---
-$base      = rtrim(getenv('TAGGBOX_API_BASE') ?: 'https://staging-apis.taggbox.com/api', '/');
+$base      = rtrim(getenv('TAGGBOX_API_BASE') ?: 'https://api.taggbox.com/api', '/');
 $accessToken   = getenv('TAGGBOX_ACCESS_TOKEN');
 $cacheFile = __DIR__ . '/taggbox-cache.json';
 $cacheTtl  = 300; // 5 minutes, in seconds
@@ -134,7 +134,7 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-const BASE = (process.env.TAGGBOX_API_BASE || 'https://staging-apis.taggbox.com/api').replace(/\/$/, '');
+const BASE = (process.env.TAGGBOX_API_BASE || 'https://api.taggbox.com/api').replace(/\/$/, '');
 const ACCESS_TOKEN = process.env.TAGGBOX_ACCESS_TOKEN;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes, in milliseconds
 
@@ -284,7 +284,7 @@ Rules for all code in this project:
 
 - Read the credential from the TAGGBOX_ACCESS_TOKEN env var (an account
   access token or a wt1_ wall token, both work) and the base URL from
-  TAGGBOX_API_BASE (default https://staging-apis.taggbox.com/api). Never
+  TAGGBOX_API_BASE (default https://api.taggbox.com/api). Never
   hard-code either.
 - All Taggbox API calls run server-side; the token must never reach the
   browser.
