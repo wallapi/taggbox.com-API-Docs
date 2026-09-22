@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en" data-theme="">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social Wall Preview</title>
+<meta name="description" content="Static preview of the Taggbox social widget, rendered from the sample posts - no server, no token, no API call.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* ---------------------------------------------------------------------------
+   Design tokens - widget-design-spec.md section 2. Do not invent other colours.
+   --------------------------------------------------------------------------- */
+:root {
+  /* Brand - identical in both themes */
+  --tbx-purple:    #613983;
+  --tbx-pink:      #cc3d6f;
+  --tbx-pink-ink:  #a82b56;
+  --tbx-pink-lite: #eb5c99;
+  --tbx-accent:    #ff492c;
+
+  /* Light theme */
+  --tbx-ink:       #09090b;
+  --tbx-body:      #3f3f46;
+  --tbx-muted:     #6b6478;
+  --tbx-surface:   #ffffff;
+  --tbx-bg:        #f7f7f9;
+  --tbx-line:      rgba(9,9,11,.09);
+
+  /* Shape, depth, motion */
+  --tbx-radius:    14px;
+  --tbx-shadow:    0 1px 2px rgba(9,9,11,.05), 0 4px 12px rgba(9,9,11,.05);
+  --tbx-shadow-up: 0 2px 4px rgba(9,9,11,.06), 0 12px 28px rgba(9,9,11,.10);
+  --tbx-ring:      0 0 0 3px rgba(204,61,111,.35);
+  --tbx-ease:      150ms cubic-bezier(.2,0,.2,1);
+
+  /* Type and rhythm */
+  --tbx-font:      Inter, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --tbx-text:      15px/1.55;
+  --tbx-meta:      13px/1.4;
+  --tbx-gap:       20px;
+}
+
+/* Dark theme - only these tokens are remapped, so the brand hues stay
+   recognisable. data-theme overrides the OS preference in both directions. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --tbx-ink:      #f4f4f5;  --tbx-body:     #d4d4d8;
+    --tbx-muted:    #a1a1aa;  --tbx-surface:  #18181b;
+    --tbx-bg:       #101012;  --tbx-line:     rgba(255,255,255,.10);
+    --tbx-pink:     #f472a0;  --tbx-pink-ink: #f9a8c4;
+    --tbx-purple:   #c4a5e0;
+  }
+}
+:root[data-theme="dark"] {
+  --tbx-ink:      #f4f4f5;  --tbx-body:     #d4d4d8;
+  --tbx-muted:    #a1a1aa;  --tbx-surface:  #18181b;
+  --tbx-bg:       #101012;  --tbx-line:     rgba(255,255,255,.10);
+  --tbx-pink:     #f472a0;  --tbx-pink-ink: #f9a8c4;
+  --tbx-purple:   #c4a5e0;
+}
+
+/* --------------------------------------------------------------------------
+   Page shell - design spec section 8. Quiet frame; the posts are the content.
+   -------------------------------------------------------------------------- */
+* { box-sizing: border-box; }
+html { font-family: var(--tbx-font); }
+body {
+  margin: 0;
+  background: var(--tbx-bg);
+  color: var(--tbx-body);
+  -webkit-font-smoothing: antialiased;
+}
+.tbx-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 16px 56px;
+}
+.tbx-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--tbx-gap);
+  margin-bottom: 28px;
+}
+.tbx-wordmark {
+  margin: 0 0 6px;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  background: linear-gradient(135deg, var(--tbx-purple), var(--tbx-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.tbx-sub { margin: 0; font: var(--tbx-meta); color: var(--tbx-muted); }
+.tbx-theme {
+  margin-left: auto;
+  flex: none;
+  font: var(--tbx-meta);
+  font-family: inherit;
+  color: var(--tbx-muted);
+  background: var(--tbx-surface);
+  border: 1px solid var(--tbx-line);
+  border-radius: 8px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: color var(--tbx-ease), border-color var(--tbx-ease);
+}
+.tbx-theme:hover { color: var(--tbx-ink); }
+
+/* The preview note - this page never calls the API, so it always shows. */
+.tbx-note {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 10px 14px;
+  font: var(--tbx-meta);
+  color: var(--tbx-muted);
+  background: var(--tbx-surface);
+  border: 1px solid var(--tbx-line);
+  border-radius: 8px;
+}
+.tbx-note b { color: var(--tbx-ink); font-weight: 600; }
+.tbx-note button {
+  margin-left: auto;
+  flex: none;
+  border: 0;
+  background: none;
+  color: var(--tbx-pink);
+  font: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+.tbx-note button:hover { color: var(--tbx-pink-ink); text-decoration: underline; }
+
+/* --------------------------------------------------------------------------
+   Layout B - WALL. Multi-column so heights pack naturally; the breakpoints
+   read the CONTAINER, not the viewport, because a widget can sit in a sidebar.
+   -------------------------------------------------------------------------- */
+.tbx-wall { container-type: inline-size; }
+.tbx-wall__cols { columns: 1; column-gap: var(--tbx-gap); }
+@container (min-width: 520px)  { .tbx-wall__cols { columns: 2; } }
+@container (min-width: 800px)  { .tbx-wall__cols { columns: 3; } }
+@container (min-width: 1100px) { .tbx-wall__cols { columns: 4; } }
+
+/* --------------------------------------------------------------------------
+   Card - design spec section 3, with the section 5 wall treatment: image flush
+   to the top and side edges, padding on the text half only.
+   -------------------------------------------------------------------------- */
+.tbx-card {
+  break-inside: avoid;
+  margin: 0 0 var(--tbx-gap);
+  background: var(--tbx-surface);
+  border: 1px solid var(--tbx-line);
+  border-radius: var(--tbx-radius);
+  box-shadow: var(--tbx-shadow);
+  overflow: hidden;
+  transition: transform var(--tbx-ease), box-shadow var(--tbx-ease);
+}
+.tbx-card:hover { transform: translateY(-2px); box-shadow: var(--tbx-shadow-up); }
+
+/* Each image keeps its OWN aspect ratio - a uniform crop turns a wall into a
+   generic card grid. --tbx-bg behind it so nothing jumps while it loads. */
+.tbx-media { background: var(--tbx-bg); line-height: 0; overflow: hidden; }
+.tbx-media img { width: 100%; height: auto; display: block; transition: transform var(--tbx-ease); }
+.tbx-card:hover .tbx-media img { transform: scale(1.03); }
+/* A post whose only media is a video still keeps its own ratio, but a 9:16
+   clip would otherwise own a whole column - so cap the tile height. */
+.tbx-media--video { max-height: 420px; }
+.tbx-media video { width: 100%; height: 100%; display: block; object-fit: cover; background: #000; }
+
+.tbx-body { padding: var(--tbx-gap) var(--tbx-gap) 0; }
+.tbx-title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--tbx-ink);
+}
+.tbx-text {
+  margin: 0;
+  font: var(--tbx-text);
+  color: var(--tbx-body);
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Text-only posts become a tinted tile rather than an empty card - these are
+   what give the wall its rhythm. */
+.tbx-card--text { background:
+  linear-gradient(135deg, rgba(97,57,131,.08), rgba(204,61,111,.08)), var(--tbx-surface); }
+.tbx-card--text .tbx-text {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--tbx-ink);
+  -webkit-line-clamp: 10;
+}
+
+.tbx-rating {
+  margin: 10px var(--tbx-gap) 0;
+  font-size: 14px;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+.tbx-rating__on  { color: var(--tbx-accent); }
+.tbx-rating__off { color: var(--tbx-muted); opacity: .45; }
+
+/* Two rows, so the network and the date always get the full card width - in a
+   four-column wall they do not fit beside the name. */
+.tbx-foot {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2px 10px;
+  padding: 14px var(--tbx-gap) var(--tbx-gap);
+}
+.tbx-avatar { grid-area: 1 / 1; border-radius: 50%; background: var(--tbx-bg); }
+.tbx-name {
+  grid-area: 1 / 2;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tbx-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tbx-meta { grid-area: 2 / 2 / 2 / -1; font: var(--tbx-meta); color: var(--tbx-muted); }
+.tbx-view {
+  grid-area: 1 / 3;
+  font: var(--tbx-meta);
+  font-weight: 500;
+  color: var(--tbx-pink);
+  text-decoration: none;
+}
+.tbx-view:hover { color: var(--tbx-pink-ink); text-decoration: underline; }
+
+.tbx-footline {
+  margin-top: 32px;
+  font: var(--tbx-meta);
+  color: var(--tbx-muted);
+  text-align: center;
+}
+
+/* Accessibility - design spec section 7. Never outline:none without a
+   replacement, and drop every motion under prefers-reduced-motion. */
+a:focus-visible, button:focus-visible, video:focus-visible {
+  outline: none;
+  box-shadow: var(--tbx-ring);
+  border-radius: 6px;
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+  .tbx-card:hover { transform: none; }
+  .tbx-card:hover .tbx-media img { transform: none; }
+}
+</style>
+</head>
+<body>
+<div class="tbx-page">
+
+  <header class="tbx-head">
+    <div>
+      <p class="tbx-wordmark">What people are saying</p>
+      <p class="tbx-sub">A wall of the posts Taggbox collects - social posts and reviews, one shape.</p>
+    </div>
+    <button class="tbx-theme" type="button" id="tbx-theme">Switch theme</button>
+  </header>
+
+  <p class="tbx-note">
+    <span><b>Preview data.</b> This page is a static design preview - it makes no API call
+    and holds no token. Live posts arrive once index.php or server.js runs on your server.</span>
+    <button type="button" id="tbx-dismiss">Dismiss</button>
+  </p>
+
+  <div class="tbx-wall">
+    <div class="tbx-wall__cols">
+    <article class="tbx-card">
+      <div class="tbx-media">
+        <img src="https://picsum.photos/id/1011/1080/1080" alt="" width="1080" height="1080" loading="lazy" decoding="async">
+      </div>
+      <div class="tbx-body">
+        <p class="tbx-text">Golden hour at the flagship store — thank you for stopping by! 🌞</p>
+      </div>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=1" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Maya Fernandes</span>
+        <a class="tbx-view" href="https://instagram.com/p/Cx9001Sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Instagram · <time datetime="2026-09-20T14:32:10.000Z">20 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card tbx-card--text">
+      <div class="tbx-body">
+        <p class="tbx-text">Fast shipping, and the quality is even better than I expected. Will definitely order again.</p>
+      </div>
+      <p class="tbx-rating" role="img" aria-label="Rated 5 out of 5"><span class="tbx-rating__on">★★★★★</span><span class="tbx-rating__off"></span></p>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=11" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Sara Kim</span>
+        <a class="tbx-view" href="https://g.page/r/sample9101/review" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Google · <time datetime="2026-09-20T09:02:00.000Z">20 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card">
+      <div class="tbx-media tbx-media--video" style="aspect-ratio:1080/1920">
+        <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" width="1080" height="1920" controls muted playsinline preload="metadata"></video>
+      </div>
+      <div class="tbx-body">
+        <p class="tbx-text">Unboxing day 📦 this is my third order and it never disappoints</p>
+      </div>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=2" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Devon Cole</span>
+        <a class="tbx-view" href="https://tiktok.com/@devoncole/video/9002sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">TikTok · <time datetime="2026-09-19T08:15:44.000Z">19 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card">
+      <div class="tbx-media">
+        <img src="https://picsum.photos/id/1005/1200/800" alt="" width="1200" height="800" loading="lazy" decoding="async">
+      </div>
+      <div class="tbx-body">
+        <p class="tbx-text">Had such a great time at the pop-up this weekend. See you all next month!</p>
+      </div>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=3" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Priya Nair</span>
+        <a class="tbx-view" href="https://facebook.com/priya.nair.98/posts/9003sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Facebook · <time datetime="2026-09-18T19:05:02.000Z">18 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card tbx-card--text">
+      <div class="tbx-body">
+        <p class="tbx-text">Good experience overall. Staff was friendly and the place was clean. Only reason it&#39;s not 5 stars is the wait time.</p>
+      </div>
+      <p class="tbx-rating" role="img" aria-label="Rated 4 out of 5"><span class="tbx-rating__on">★★★★</span><span class="tbx-rating__off">☆</span></p>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=12" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Marcus T.</span>
+        <a class="tbx-view" href="https://yelp.com/biz/sample-store#9102sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Yelp · <time datetime="2026-09-18T15:40:00.000Z">18 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card tbx-card--text">
+      <div class="tbx-body">
+        <p class="tbx-text">Customer support just resolved my issue in under 10 minutes. That&#39;s how it&#39;s done.</p>
+      </div>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=4" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Alex Whitmore</span>
+        <a class="tbx-view" href="https://x.com/alexw/status/9004sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">X (Twitter) · <time datetime="2026-09-17T11:48:27.000Z">17 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card">
+      <div class="tbx-media tbx-media--video" style="aspect-ratio:1280/720">
+        <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" width="1280" height="720" controls muted playsinline preload="metadata"></video>
+      </div>
+      <div class="tbx-body">
+        <h2 class="tbx-title">My honest first impressions</h2>
+        <p class="tbx-text">Full walkthrough of everything in the box, plus my honest first impressions after a week of daily use.</p>
+      </div>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=5" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">The Weekend Reviewer</span>
+        <a class="tbx-view" href="https://youtube.com/watch?v=9005sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">YouTube · <time datetime="2026-09-16T21:12:56.000Z">16 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card">
+      <div class="tbx-media">
+        <img src="https://picsum.photos/id/1060/1024/768" alt="" width="1024" height="768" loading="lazy" decoding="async">
+      </div>
+      <div class="tbx-body">
+        <h2 class="tbx-title">Exceeded expectations</h2>
+        <p class="tbx-text">Everything from check-in to check-out was smooth. Adding a couple of photos from our stay.</p>
+      </div>
+      <p class="tbx-rating" role="img" aria-label="Rated 5 out of 5"><span class="tbx-rating__on">★★★★★</span><span class="tbx-rating__off"></span></p>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=13" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">The Alvarez Family</span>
+        <a class="tbx-view" href="https://tripadvisor.com/ShowUserReviews-9103sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Tripadvisor · <time datetime="2026-09-16T12:10:00.000Z">16 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card">
+      <div class="tbx-media">
+        <img src="https://picsum.photos/id/1025/1200/627" alt="" width="1200" height="627" loading="lazy" decoding="async">
+      </div>
+      <div class="tbx-body">
+        <p class="tbx-text">Proud to share that our team shipped this integration a full sprint ahead of schedule.</p>
+      </div>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=6" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Rahul Menon</span>
+        <a class="tbx-view" href="https://linkedin.com/feed/update/urn:li:activity:9006sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">LinkedIn · <time datetime="2026-09-15T09:40:33.000Z">15 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card tbx-card--text">
+      <div class="tbx-body">
+        <p class="tbx-text">It&#39;s decent for the price, but delivery took longer than the estimate I was given.</p>
+      </div>
+      <p class="tbx-rating" role="img" aria-label="Rated 3 out of 5"><span class="tbx-rating__on">★★★</span><span class="tbx-rating__off">☆☆</span></p>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=14" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Neha Joshi</span>
+        <a class="tbx-view" href="https://facebook.com/ourbrandpage/reviews/9104sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Facebook · <time datetime="2026-09-14T18:25:00.000Z">14 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card">
+      <div class="tbx-media">
+        <img src="https://picsum.photos/id/1035/736/1104" alt="" width="736" height="1104" loading="lazy" decoding="async">
+      </div>
+      <div class="tbx-body">
+        <h2 class="tbx-title">Styling ideas for the living room</h2>
+        <p class="tbx-text">Saved this whole board for my apartment refresh next month.</p>
+      </div>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=7" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">homeandhue</span>
+        <a class="tbx-view" href="https://pinterest.com/pin/9007sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Pinterest · <time datetime="2026-09-13T17:22:19.000Z">13 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card tbx-card--text">
+      <div class="tbx-body">
+        <p class="tbx-text">Best customer service I&#39;ve dealt with all year. They went out of their way to fix a sizing issue.</p>
+      </div>
+      <p class="tbx-rating" role="img" aria-label="Rated 5 out of 5"><span class="tbx-rating__on">★★★★★</span><span class="tbx-rating__off"></span></p>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=15" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Tom Becker</span>
+        <a class="tbx-view" href="https://g.page/r/sample9105/review" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Google · <time datetime="2026-09-12T07:55:00.000Z">12 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card">
+      <div class="tbx-media tbx-media--video" style="aspect-ratio:1080/1350">
+        <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" width="1080" height="1350" controls muted playsinline preload="metadata"></video>
+      </div>
+      <div class="tbx-body">
+        <p class="tbx-text">Behind the scenes from today&#39;s shoot 🎬</p>
+      </div>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=8" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Studio Nord</span>
+        <a class="tbx-view" href="https://instagram.com/p/Cx9008Sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Instagram · <time datetime="2026-09-10T13:05:48.000Z">10 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card tbx-card--text">
+      <div class="tbx-body">
+        <h2 class="tbx-title">Not what I expected</h2>
+        <p class="tbx-text">Package arrived damaged and support took three days to respond. Hoping this was a one-off.</p>
+      </div>
+      <p class="tbx-rating" role="img" aria-label="Rated 2 out of 5"><span class="tbx-rating__on">★★</span><span class="tbx-rating__off">☆☆☆</span></p>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=16" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">L. Petrova</span>
+        <a class="tbx-view" href="https://trustpilot.com/reviews/9106sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Trustpilot · <time datetime="2026-09-09T20:30:00.000Z">9 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card tbx-card--text">
+      <div class="tbx-body">
+        <p class="tbx-text">Quick question for everyone — which colourway should we restock first?</p>
+      </div>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=9" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Community Team</span>
+        <a class="tbx-view" href="https://facebook.com/ourbrandpage/posts/9009sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Facebook · <time datetime="2026-09-07T10:18:05.000Z">7 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card tbx-card--text">
+      <div class="tbx-body">
+        <p class="tbx-text">Solid neighbourhood favourite. Consistent quality every time I&#39;ve visited.</p>
+      </div>
+      <p class="tbx-rating" role="img" aria-label="Rated 4 out of 5"><span class="tbx-rating__on">★★★★</span><span class="tbx-rating__off">☆</span></p>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=17" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Owen R.</span>
+        <a class="tbx-view" href="https://yelp.com/biz/sample-store#9107sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Yelp · <time datetime="2026-09-05T11:15:00.000Z">5 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card">
+      <div class="tbx-media">
+        <img src="https://picsum.photos/id/1043/1200/900" alt="" width="1200" height="900" loading="lazy" decoding="async">
+      </div>
+      <div class="tbx-body">
+        <p class="tbx-text">Set up my desk with the new arrivals today. Obsessed. 💛</p>
+      </div>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=10" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Jordan Lee</span>
+        <a class="tbx-view" href="https://x.com/jordanlee/status/9010sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">X (Twitter) · <time datetime="2026-09-02T16:44:12.000Z">2 Sep 2026</time></span>
+      </footer>
+    </article>
+    <article class="tbx-card tbx-card--text">
+      <div class="tbx-body">
+        <h2 class="tbx-title">Would come back again</h2>
+        <p class="tbx-text">A hidden gem. The staff remembered our order from last time, which was a nice touch.</p>
+      </div>
+      <p class="tbx-rating" role="img" aria-label="Rated 5 out of 5"><span class="tbx-rating__on">★★★★★</span><span class="tbx-rating__off"></span></p>
+      <footer class="tbx-foot">
+        <img class="tbx-avatar" src="https://i.pravatar.cc/150?img=18" alt="" width="24" height="24" loading="lazy" decoding="async">
+        <span class="tbx-name">Grace Lin</span>
+        <a class="tbx-view" href="https://tripadvisor.com/ShowUserReviews-9108sample" target="_blank" rel="noopener noreferrer">View post</a>
+        <span class="tbx-meta">Tripadvisor · <time datetime="2026-08-30T09:12:44.000Z">30 Aug 2026</time></span>
+      </footer>
+    </article>
+    </div>
+  </div>
+
+  <p class="tbx-footline">18 sample posts - the same shape as body.posts from GET /v3/posts</p>
+
+</div>
+
+<script>
+  // The only JavaScript this page ships: the theme toggle and the note dismiss.
+  // No fetch, no token, nothing that talks to the network.
+  (function () {
+    var root = document.documentElement;
+    document.getElementById('tbx-theme').addEventListener('click', function () {
+      var dark = getComputedStyle(root).getPropertyValue('--tbx-surface').trim() === '#18181b';
+      root.setAttribute('data-theme', dark ? 'light' : 'dark');
+    });
+    document.getElementById('tbx-dismiss').addEventListener('click', function () {
+      this.parentNode.remove();
+    });
+  })();
+</script>
+</body>
+</html>
