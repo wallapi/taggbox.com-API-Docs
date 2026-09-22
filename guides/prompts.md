@@ -14,7 +14,7 @@ HTML page, the raw one returns the file:
 | ---- | --------------- | ---------------- |
 | Build brief | what to build, the file manifest, the delivery checklist — and it links the other two | [widget-build-brief.md](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/widget-build-brief.md) |
 | API spec | endpoints, envelope, field names, integration rules | [llms.txt](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/llms.txt) |
-| Design spec | `--tbx-*` tokens, dark theme, card treatment, widget and reel layouts, page shell | [widget-design-spec.md](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/widget-design-spec.md) |
+| Design spec | `--tbx-*` tokens, the shipped themes in themes.json, card treatment, widget and reel layouts, page shell | [widget-design-spec.md](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/widget-design-spec.md) |
 
 All three live in the public docs repo
 [github.com/wallapi/taggbox.com-API-Docs](https://github.com/wallapi/taggbox.com-API-Docs),
@@ -57,8 +57,12 @@ token, no API call anywhere in it. Double-click it and the design is on screen,
 which is how you review the look before you have a token, on a laptop with
 neither PHP nor Node installed, or in a chat window that can run neither.
 Because all three render the same markup from the same tokens, a restyle has to
-land in all three or they drift apart. A reference build of it is
-[preview.html](preview.html) in this folder.
+land in all three or they drift apart. Its skin comes from
+[themes.json](themes.json) — the 23 shipped widget themes as data. One theme
+supplies every colour, the font, the radius, the spacing, the column count and
+the author/date toggles, and that is the whole skin: no light/dark switch
+anywhere in the build. The field-by-field mapping is in [the design spec](widget-design-spec.md),
+under **Themes** in section 2, and the build names the theme it used.
 
 It is `preview.html` and not `index.html` on purpose: an `index.html` sitting
 next to `index.php` is served *instead* of it by most Apache and nginx
@@ -118,13 +122,11 @@ What to deliver - all of these, in this reply, not a choice:
   nothing to require.
 - server.js + package.json: the same four things again in Node.js 18+
   with Express. No separate stylesheet in either version.
-- preview.html: the same page as a plain static file, with your sample
-  posts already written into the HTML as finished markup. It calls
-  nothing - no fetch, no API call, no token - so I can double-click it
-  and see the design with nothing installed and before I have a token.
-  Same CSS and markup as the two above, and a later restyle applies to
-  all three. Call it preview.html and not index.html, which would get
-  served instead of index.php.
+- preview.html: those same sample posts already expanded into static
+  HTML. I double-click it, no server and nothing installed, and it
+  calls NOTHING - no fetch, no token, theme toggle aside. Same CSS
+  and markup as the two above, so a later restyle applies to all
+  three. Not index.html - that gets served instead of index.php.
 - README.md covering them: the files, the two environment variables,
   how to run each one written for someone who has never opened a
   terminal, how the cache works, and a short list of what to check when
@@ -181,7 +183,7 @@ and how to set the environment variables and run each version.
 ```
 
 Want it on brand rather than unstyled? Add this line — the design spec carries
-the palette, the dark theme, the card treatment and the layouts:
+the palette, the shipped themes, the card treatment and the layouts:
 
 ```
 For the looks, follow this design spec exactly:
@@ -270,7 +272,8 @@ FIRST media entry whose type is "image" via its cdn_url. Absent values
 are null. Paginate by sending paging.next_cursor back as `after`.
 Brand colours, on :root: --tbx-purple #613983, --tbx-pink #cc3d6f,
 --tbx-pink-ink #a82b56, --tbx-pink-lite #eb5c99, --tbx-accent #ff492c.
-Ship a dark theme and keep every text/surface pair at WCAG AA.
+Keep every text/surface pair at WCAG AA. One skin only - no dark
+mode, no prefers-color-scheme remap, no theme toggle.
 ```
 
 ---
@@ -334,8 +337,8 @@ in sections 4-5 of
 https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/widget-design-spec.md
 Keep using the --tbx-* design tokens already declared - do not
 introduce new colours or a CSS framework, and keep the CSS inside the
-same file. Both themes must still work: check the result in light AND
-dark, and keep every text/surface pair at WCAG AA. Keep the data layer
+same file. Keep every text/surface pair at WCAG AA, and do not add a
+dark mode or a theme toggle - the build is one skin. Keep the data layer
 and the caching untouched - CSS and markup only, and apply the same
 change to ALL THREE - the Node.js file, the PHP file and preview.html -
 so they stay identical. Give me back the updated preview.html too: it
@@ -431,7 +434,7 @@ separately against the daily ceiling.
 
 **You DO get a styled page, on brand.** The full token set (palette, type
 scale, radius, elevation, focus ring, card treatment, responsive rule) plus a
-dark theme, AA-checked contrast and the page shell live in the
+the shipped themes, AA-checked contrast and the page shell live in the
 [design spec](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/widget-design-spec.md),
 so the first render already looks like ours instead of an unstyled list. The
 layout is decided too: **Prompt 1** and **Prompt 2** both build a WALL mosaic,
