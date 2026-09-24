@@ -8,19 +8,36 @@ answered in my message; never pick either one for me.
 
 Fetch this RAW and show me its theme picker the way it says - the
 thumbnails page itself, rendered (an HTML artifact, or the page opened
-in my browser), never a list of theme names - and ask which one I want:
+in my browser), never a list of theme names and never a table of your
+own - and ask which one I want. Only if the page cannot be shown, use the
+catalogue's thumbnail table as it is: two columns, the numbered theme name
+and the thumbnail as a picture, nothing else:
 https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/README.md
 Then stop and wait for my answer.
 
-After I pick, build from that theme's preview HTML (its "Preview" line
-in the catalogue), never from the thumbnail. Take only its structure
-and CSS - the posts come from the sample posts JSON, never the preview.
+After I pick, fetch that theme's preview file RAW (its "Preview" line
+in the catalogue) - it is the template, never the thumbnail. Its
+<style>, then its build note, <template id="tbx-card-template"> and
+arrow script come first, at the top of <body>; the sample cards come
+last. Copy the whole file as it is except those sample cards, and only
+inject the posts: one card per post from its template, between its
+tbx:cards marks, as the catalogue's "Filling the card" says. The posts
+come from the sample posts JSON (or the live API), never from the
+preview's sample cards.
 
 ## Step 2 - language
 
 Ask which language I want the server code in - any server-side
-language works (PHP, Node.js, Python, Ruby, Go, ...). Then stop and
-wait for my answer, and build in exactly the language I name.
+language works (PHP, Node.js, Python, Ruby, Go, Java, C#, ...) or a
+framework (Laravel, Express, Flask, Django, ...). Then stop and wait
+for my answer, and build in exactly the language I name.
+
+These guides cover every language: the rules are the same whatever it
+is, and server.md says how to write it in any of them. Never tell me
+the guide only supports some languages, never offer me a shorter list
+to choose from, and never switch to a language I did not name. If
+another page shows code in PHP or Node.js, that is an example, not a
+limit.
 
 My answer starts the build: do not repeat my choices or ask me to
 confirm - reply straight away with part 1 of step 3.

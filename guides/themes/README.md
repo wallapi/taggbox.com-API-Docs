@@ -39,38 +39,50 @@ Show it the first way your tool allows:
    Windows, `xdg-open theme-picker.html` on Linux. If you cannot run
    commands, tell them to double-click it. Say it can be deleted once they
    have picked.
-3. **Neither:** show the [thumbnail table](#thumbnails) below as images —
-   two columns, the name and its thumbnail rendered as a picture.
+3. **Neither:** copy the [thumbnail table](#thumbnails) below exactly as it
+   is, as markdown, so the thumbnails render as pictures.
 
 Copy the file character for character, the base64 included: never retype,
-shorten, resize or redraw it, and add nothing to it. **Never answer with only
-the theme names** — a list of names is not a picker. Then ask which theme they
-want; take its name or its place on the page. If they already named a theme,
+shorten, resize or redraw it, and add nothing to it.
+
+**Never make a table or list of your own.** The picker page (or, only when it
+cannot be shown, the thumbnail table below) is the whole answer to the theme
+question. The table has exactly **two columns — the numbered theme name and
+its thumbnail** — and nothing else: no "For", "Look", "What it looks like",
+layout, values or "#" column, and never the theme names alone. The thumbnail
+is the picture itself (`![name](url)`), never a link or a file name like
+`bigThumb5.png`. The per-theme sections under [The themes](#the-themes) are for
+the build, not for the user — never summarise them in the question.
+
+Then ask which theme they want; take its name or its number. If they already named a theme,
 skip the question. Never pick one for them at random.
+
+Your whole reply to the theme question is: the picker (or the table), then one
+line — "Which theme do you want? Reply with its name or number."
 
 ## Thumbnails
 
 | Theme | Thumbnail |
 | ----- | --------- |
-| Classic Card | ![bigThumb5.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb5.png) |
-| Social Card | ![bigThumb19.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb19.png) |
-| Modern Card | ![bigThumb20.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb20.png) |
-| Classic Photo | ![bigThumb3.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb3.png) |
-| Square Photo | ![bigThumb4.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb4.png) |
-| Collage | ![bigThumb50.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb50.png) |
-| Vivid | ![bigThumb83.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb83.png) |
-| Horizontal Slider | ![bigThumb16.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb16.png) |
-| Horizontal Columns | ![bigThumb47.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb47.png) |
-| Slider | ![bigThumb81.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb81.png) |
-| Reels | ![bigThumb61.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb61.png) |
-| Story Theme | ![bigThumb60.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb60.png) |
-| Single Post | ![bigThumb52.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb52.png) |
-| Widget Theme | ![bigThumb49.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb49.png) |
-| Review Box | ![bigThumb79.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb79.png) |
-| Review Carousel | ![bigThumb80.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb80.png) |
-| Review List | ![bigThumb85.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb85.png) |
-| Rating Badge | ![bigThumb82.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb82.png) |
-| Badge | ![bigThumb84.png](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb84.png) |
+| 1. Classic Card | ![Classic Card](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb5.png) |
+| 2. Social Card | ![Social Card](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb19.png) |
+| 3. Modern Card | ![Modern Card](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb20.png) |
+| 4. Classic Photo | ![Classic Photo](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb3.png) |
+| 5. Square Photo | ![Square Photo](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb4.png) |
+| 6. Collage | ![Collage](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb50.png) |
+| 7. Vivid | ![Vivid](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb83.png) |
+| 8. Horizontal Slider | ![Horizontal Slider](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb16.png) |
+| 9. Horizontal Columns | ![Horizontal Columns](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb47.png) |
+| 10. Slider | ![Slider](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb81.png) |
+| 11. Reels | ![Reels](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb61.png) |
+| 12. Story Theme | ![Story Theme](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb60.png) |
+| 13. Single Post | ![Single Post](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb52.png) |
+| 14. Widget Theme | ![Widget Theme](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb49.png) |
+| 15. Review Box | ![Review Box](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb79.png) |
+| 16. Review Carousel | ![Review Carousel](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb80.png) |
+| 17. Review List | ![Review List](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb85.png) |
+| 18. Rating Badge | ![Rating Badge](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb82.png) |
+| 19. Badge | ![Badge](https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/bigThumb84.png) |
 
 ## How a theme becomes the build
 
@@ -78,16 +90,25 @@ skip the question. Never pick one for them at random.
 `guides/previews/<theme>.html`, the *Preview* line under the theme below —
 before writing any code. It is the finished widget: the design is already
 done, and the build only puts the posts into it. Never redraw it from the
-thumbnail, the *Look* line or taste.
+thumbnail, the *Look* line or taste. If you cannot fetch it, say so in one
+line — do not rebuild it from memory.
+
+Read it in this order — the file is laid out so the part the build needs
+comes first, even if a long fetch gets cut off: the `<style>` block in the
+head, then at the top of `<body>` the `<!-- tbx:template … -->` note, the
+card `<template>` and (slider themes) the arrow `<script>`, then the
+`<section>`. The sample cards come last, between the `tbx:cards` marks, and
+carry large base64 images: they only show the look — never copy them, never
+retype their images.
 
 1. **Copy the whole file as it is** — the `<style>` block (every `:root`
-   value, rule and class), the `<section>` and everything inside it, the
-   header. That copy is `preview.html`, and the same page is what the server
-   code renders.
+   value, rule and class), the `<section>` and everything inside it except
+   the sample cards, the header, the arrow `<script>`. That copy is
+   `preview.html`, and the same page is what the server code renders.
 2. **Inject the posts.** Between `<!-- tbx:cards -->` and
    `<!-- /tbx:cards -->` sit the sample cards. Replace them with one card per
    post: the theme's own card from the `<template id="tbx-card-template">`
-   at the end of the file, every `{{slot}}` filled as the table below says.
+   at the top of the body, every `{{slot}}` filled as the table below says.
    `preview.html` fills it from the sample posts JSON; the server code fills
    it from `body.posts`, in a loop, at request time — same template, same
    output. The two badge themes mark `<!-- tbx:badge -->` instead and
@@ -101,9 +122,9 @@ Nothing else changes: no class renamed, no part moved or dropped, no CSS
 added. The only text a build may set is the `.tbx-header` line (the user's own
 title, or keep it), the `<p class="tbx-note">` "preview data" line the build
 brief asks for, and `<p class="tbx-empty">` in place of the cards when there
-are no posts — all three already styled by the file. The preview's sample
-posts, names, avatars and links are placeholders — none of them goes into the
-build; only the template's markup does.
+are no posts — all three already styled by the file. The preview file's
+sample posts, names, avatars and links are placeholders — none of them goes
+into the build; the posts come only from the sample posts JSON or the API.
 
 ## Filling the card
 
@@ -115,7 +136,7 @@ never print "null".
 | `{{permalink}}` | `source.permalink`, only if it starts `http://` or `https://`. None: the card is `<div class="tbx-card">…</div>` instead of the `<a>`, same classes |
 | `{{network_name}}` | `network.name` |
 | `{{network_slug}}` | `network.slug` |
-| `{{network_mark}}` | by slug: instagram `IG`, facebook `f`, twitter / x `X`, linkedin `in`, pinterest `P`, google `G`, yelp `y`, tripadvisor `TA`, trustpilot `★`, youtube `▶`, tiktok `♪`; any other: the first letter of `network.name` |
+| `{{network_mark}}` | by slug: instagram `IG`, facebook `f`, twitter / x `X`, linkedin `in`, pinterest `P`, google `G`, yelp `y`, tripadvisor `T`, trustpilot `★`, youtube `▶`, tiktok `♪`; any other: the first letter of `network.name` |
 | `{{media}}` | the FIRST `media[]` entry of type `"image"`: `<img src="{cdn_url}" alt="" loading="lazy">`. A post with a `"video"` entry: `<video controls muted playsinline preload="none" poster="{first image cdn_url}"><source src="{video cdn_url}"></video>` (no poster attribute when it has no image). The `src` is `cdn_url` copied character for character — `http(s)`, or the `data:image/…` URI the sample posts carry |
 | `{{media_width}}` `{{media_height}}` | that media entry's `width` and `height`. Either one null: drop the whole `style` attribute |
 | `{{avatar}}` | `author.avatar_url` set: `<img class="tbx-avatar" src="{avatar_url}" alt="" loading="lazy" data-initial="{initial}">`; null: `<span class="tbx-avatar">{initial}</span>`. The initial is the first letter of `{{author}}`, upper-cased |
@@ -144,9 +165,8 @@ sample cards the preview file shows — that is the check that the injection
 is right.
 
 - **Where they disagree, the preview wins.** The *Look* and *Values* lines
-  below describe the same theme in words and are there for when the preview
-  cannot be fetched; if a value there differs from the preview's `:root`, use
-  the preview. The design spec maps each `--tbx-*` token, under **Themes** in
+  below describe the same theme in words; if a value there differs from the
+  preview's `:root`, use the preview. The design spec maps each `--tbx-*` token, under **Themes** in
   section 2:
   https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/widget-design-spec.md
 - **Sliders:** the slider, carousel and rail previews carry one small
@@ -160,6 +180,9 @@ is right.
 - One theme is the whole skin: no dark mode, no toggle, no second theme.
 
 ## The themes
+
+For the build only — the details the build copies. Never show these
+sections, or a summary or table of them, to the user when asking which theme.
 
 ### 1. Classic Card — social
 

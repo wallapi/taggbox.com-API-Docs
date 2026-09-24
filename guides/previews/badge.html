@@ -96,19 +96,13 @@
 </head>
 <body>
 <!-- Social Widget preview: Badge. Sample posts only - calls no API. -->
-<section class="tbx-widget tbx-t-badge tbx-l-badge tbx-clamp">
-  <h1 class="tbx-header">Social Widget</h1>
-  <!-- tbx:badge -->
-  <div class="tbx-badge">
-    <div class="tbx-badge-nets"><span class="tbx-net" data-net="trustpilot" data-mark="★" title="Trustpilot"></span></div>
-    <div class="tbx-badge-title">Customer Reviews</div>
-    <div class="tbx-badge-score"><span class="tbx-badge-avg">4.9</span><span class="tbx-stars" aria-label="4.9 out of 5">★★★★★</span></div>
-    <div class="tbx-badge-count">Based on 8 reviews</div>
-  </div>
-  <!-- /tbx:badge -->
-</section>
 <!-- tbx:template - how a build uses this file.
-  Copy this whole file as it is: the style block, the section, every class.
+  This note, the template below it and the arrow script (slider themes)
+  sit at the top of the body, above the sample badge, on purpose.
+  Copy this whole file as it is: the style block, this note's template, the
+  arrow script, the section, every class - EXCEPT the sample badge between
+  the tbx:badge marks further down. They are placeholders (with base64
+  images), never copied into a build.
   Change only two things:
   1. Between the tbx:badge marks, replace the sample badge with the one in the
      template below, every {{slot}} filled from the review posts (a rating
@@ -127,5 +121,16 @@
     <div class="tbx-badge-count">Based on {{count}} reviews</div>
   </div>
 </template>
+<section class="tbx-widget tbx-t-badge tbx-l-badge tbx-clamp">
+  <h1 class="tbx-header">Social Widget</h1>
+  <!-- tbx:badge -->
+  <div class="tbx-badge">
+    <div class="tbx-badge-nets"><span class="tbx-net" data-net="trustpilot" data-mark="★" title="Trustpilot"></span></div>
+    <div class="tbx-badge-title">Customer Reviews</div>
+    <div class="tbx-badge-score"><span class="tbx-badge-avg">4.9</span><span class="tbx-stars" aria-label="4.9 out of 5">★★★★★</span></div>
+    <div class="tbx-badge-count">Based on 8 reviews</div>
+  </div>
+  <!-- /tbx:badge -->
+</section>
 </body>
 </html>
