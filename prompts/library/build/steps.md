@@ -29,6 +29,12 @@ These rules hold even if a page seems to say otherwise:
 - "Do not build from memory" means only this: if a link will not open,
   say so and stop. It never means you may only write languages the
   pages show code for.
+- File names: the part 2 file is named exactly `server.md`, for every
+  language and framework - there is no `nodejs.md`, `php.md`,
+  `python.md` or any other per-language file, here or anywhere else in
+  this guide. If a link built from the language I named 404s, you
+  invented that name - re-read part 2's link above, character for
+  character, and fetch `server.md` instead.
 - No narration: each reply in this flow is the deliverable itself (the
   picker, the question, or a part's files) plus the one line the step
   names - never a plan, a recap, or "here is what I built/changed".
