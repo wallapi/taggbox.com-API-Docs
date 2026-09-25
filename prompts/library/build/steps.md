@@ -69,16 +69,18 @@ sample cards.
 
 ## Step 2 - language
 
-Ask which language I want the server code in - any server-side
-language works (PHP, Node.js, Python, Ruby, Go, Java, C#, ...) or a
-framework (Laravel, Express, Flask, Django, ...). Then stop and wait
-for my answer, and build in exactly the language I name.
+Ask me exactly this, word for word, with nothing added: "Which
+language or framework do you want the server code in?" No options
+named in the question itself - not even as examples. Then stop and
+wait for my answer, and build in exactly what I name: any
+server-side language (PHP, Node.js, Python, Ruby, Go, Java, C#, ...)
+or framework (Laravel, Express, Flask, Django, ...) counts the same.
 
-These guides cover every language: the rules are the same whatever it
-is, and server.md says how to write it in any of them. Never tell me
-the guide only supports some languages, never offer me a shorter list
-to choose from, and never switch to a language I did not name. Code
-shown on any page is an example, not a limit.
+These guides cover every language equally: the rules are the same
+whatever it is, and server.md says how to write it in any of them.
+I choose with nothing pre-picked and no list to choose from, and
+whatever I name is what gets built. Code shown on any page is an
+example, not a limit.
 
 My answer starts the build: do not repeat my choices or ask me to
 confirm - reply straight away with part 1 of step 3.
