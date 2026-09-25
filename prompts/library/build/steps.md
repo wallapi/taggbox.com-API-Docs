@@ -55,8 +55,8 @@ These rules hold even if a page seems to say otherwise:
 Fetch these two RAW, together, in parallel, in this one turn - never
 fetch only the first and treat its text as enough, and never wait to
 read the first before starting the second:
-BASE/guides/themes/README.md?v=2026-09-24c
-BASE/guides/themes/thumbnails.html?v=2026-09-24c
+BASE/guides/themes/README.md?v=2026-09-25a
+BASE/guides/themes/thumbnails.html?v=2026-09-25a
 
 The first is the theme catalogue; its "Agents: ask first" section
 says exactly how to show the second - the picker file you just

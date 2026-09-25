@@ -24,7 +24,7 @@ page with every theme's name under its thumbnail, the images embedded as
 base64 so it renders anywhere:
 
 ```
-https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/thumbnails.html?v=2026-09-24c
+https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/guides/themes/thumbnails.html?v=2026-09-25a
 ```
 
 Show it the first way your tool allows:
