@@ -1,4 +1,4 @@
-/* Classic Card theme - values from themes-lite.json. Change the look here. */
+  /* Classic Card theme - values from themes-lite.json. Change the look here. */
   :root {
     --tbx-bg: #E9EAF0;
     --tbx-surface: #ffffff;
@@ -31,10 +31,10 @@
   /* Fallback tile: chat preview panes block outside images, so show the network name */
   .tbx-media::after { content: attr(data-network); position: absolute; inset: 0; display: grid;
     place-items: center; font-size: .85em; letter-spacing: .06em; text-transform: uppercase; opacity: .45; }
-  .tbx-media img, .tbx-media video { position: relative; z-index: 1; display: block; width: 100%; height: 100%; object-fit: cover; }
-  /* Blocked image: cover the broken-image icon with the blurred thumbnail, if any */
-  .tbx-media img::before { content: ""; position: absolute; inset: -16px;
-    background: var(--tbx-ph, none) center / cover no-repeat; filter: blur(8px); }
+  .tbx-media img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* Blocked image: cover the broken-image icon with the thumbnail, if any */
+  .tbx-media img::before { content: ""; position: absolute; inset: 0;
+    background: var(--tbx-ph, none) center / cover no-repeat; }
   .tbx-play { position: absolute; z-index: 2; right: 10px; top: 10px; width: 28px; height: 28px;
     border-radius: 50%; background: rgba(0,0,0,.55); }
   .tbx-play::before { content: ""; position: absolute; left: 11px; top: 8px;

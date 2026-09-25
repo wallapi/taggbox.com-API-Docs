@@ -52,8 +52,6 @@ THEMES = {
     "Review Box":         ("review-box",         "grid",    ["stars", "text", "head"]),
     "Review Carousel":    ("review-carousel",    "slider",  ["stars", "text", "head"]),
     "Review List":        ("review-list",        "list",    ["head", "stars", "text"]),
-    "Rating Badge":       ("rating-badge",       "badge",   []),
-    "Badge":              ("badge",              "badge",   []),
 }
 
 # Step 1's theme list: number = position here. (themeId, type label, what it looks like)
