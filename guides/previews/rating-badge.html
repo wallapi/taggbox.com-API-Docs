@@ -1,16 +1,23 @@
-  /* Reels theme - values from themes-lite.json. Change the look here. */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social Widget</title>
+<style>
+  /* Rating Badge theme - values from themes-lite.json. Change the look here. */
   :root {
-    --tbx-bg: #ffffff;
-    --tbx-surface: #ffffff;
+    --tbx-bg: #f5f6f7;
+    --tbx-surface: #fafafa;
     --tbx-text: #000000;
-    --tbx-author: #2B2B2B;
-    --tbx-font: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-    --tbx-weight: regular;
+    --tbx-author: #000000;
+    --tbx-font: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --tbx-weight: 400;
     --tbx-size: 14px;
-    --tbx-radius: 8px;
+    --tbx-radius: 3px;
     --tbx-img-radius: 8px;
-    --tbx-gap: 12px;
-    --tbx-pad: 14px;
+    --tbx-gap: 10px;
+    --tbx-pad: 12px;
     --tbx-cols: 3;
     --tbx-align: left;
     --tbx-lines: none;
@@ -70,21 +77,60 @@
   /* Starters only: no posts yet, and the "sample posts" note */
   .tbx-empty, .tbx-note { text-align: center; opacity: .7; margin: 0 0 16px; }
 
-  /* Slider: one row that scrolls sideways; the arrows scroll one view */
-  .tbx-slider { position: relative; }
-  .tbx-track { display: flex; gap: var(--tbx-gap); overflow-x: auto; scroll-snap-type: x mandatory;
-    scrollbar-width: none; padding: 4px 2px 12px; }
-  .tbx-track::-webkit-scrollbar { display: none; }
-  .tbx-card { flex: 0 0 calc((100% - (var(--tbx-cols) - 1) * var(--tbx-gap)) / var(--tbx-cols));
-    scroll-snap-align: start; }
-  @media (max-width: 900px) { .tbx-card { flex-basis: calc((100% - var(--tbx-gap)) / 2); } }
-  @media (max-width: 560px) { .tbx-card { flex-basis: 85%; } }
-  .tbx-arrow { position: absolute; z-index: 4; top: 50%; transform: translateY(-50%); width: 36px; height: 36px;
-    border: 0; border-radius: 50%; background: #fff; color: #333; font-size: 20px; cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,.2); }
-  .tbx-arrow--prev { left: -10px; }
-  .tbx-arrow--next { right: -10px; }
+  /* Badge: one summary of all reviews - logo, average score, stars, count */
+  .tbx-badge { display: flex; margin: 0 auto; background: var(--tbx-surface); border-radius: 10px;
+    box-shadow: 0 2px 14px rgba(0,0,0,.09); color: inherit; }
+  .tbx-badge-nets { display: flex; }
+  .tbx-badge-title { font-size: 1.1em; }
+  .tbx-badge-score { display: flex; align-items: center; gap: 10px; }
+  .tbx-badge-avg { font-weight: 700; line-height: 1; }
+  .tbx-badge .tbx-stars { padding: 0; font-size: 1.5em; }
+  .tbx-badge-count { font-size: .9em; opacity: .75; }
 
-  .tbx-card { background: none; }
-  .tbx-media { aspect-ratio: 9 / 16; }
-  .tbx-arrow { display: none; }
+  .tbx-badge { width: 180px; flex-direction: column; text-align: center; gap: 8px; padding: 18px 14px; }
+  .tbx-badge-nets .tbx-net:not(:first-child) { display: none; }
+  .tbx-badge-nets .tbx-net { width: 34px; height: 34px; font-size: 15px; }
+  .tbx-badge-score { flex-direction: column; gap: 6px; }
+  .tbx-badge-avg { font-size: 2.4em; }
+</style>
+</head>
+<body>
+<!-- Social Widget preview: Rating Badge. Sample posts only - calls no API. -->
+<!-- tbx:template - how a build uses this file.
+  This note, the template below it and the arrow script (slider themes)
+  sit at the top of the body, above the sample badge, on purpose.
+  Copy this whole file as it is: the style block, this note's template, the
+  arrow script, the section, every class - EXCEPT the sample badge between
+  the tbx:badge marks further down. They are placeholders (with base64
+  images), never copied into a build.
+  Change only two things:
+  1. Between the tbx:badge marks, replace the sample badge with the one in the
+     template below, every {{slot}} filled from the review posts (a rating
+     that is not null), each value HTML-escaped.
+  2. Delete this note and the template element.
+  Slots (full rules in guides/themes/README.md, "Filling the card"):
+  {{average}} the mean rating, one decimal   {{average_stars}} it rounded, as
+  filled stars, rest hollow   {{count}} how many reviews
+  {{networks}} one span.tbx-net per network among them, in first-seen order
+-->
+<template id="tbx-badge-template">
+  <div class="tbx-badge">
+    <div class="tbx-badge-nets">{{networks}}</div>
+    <div class="tbx-badge-title">Customer Reviews</div>
+    <div class="tbx-badge-score"><span class="tbx-badge-avg">{{average}}</span><span class="tbx-stars" aria-label="{{average}} out of 5">{{average_stars}}</span></div>
+    <div class="tbx-badge-count">Based on {{count}} reviews</div>
+  </div>
+</template>
+<section class="tbx-widget tbx-t-rating-badge tbx-l-badge">
+  <h1 class="tbx-header">Social Widget</h1>
+  <!-- tbx:badge -->
+  <div class="tbx-badge">
+    <div class="tbx-badge-nets"><span class="tbx-net" data-net="trustpilot" data-mark="★" title="Trustpilot"></span></div>
+    <div class="tbx-badge-title">Customer Reviews</div>
+    <div class="tbx-badge-score"><span class="tbx-badge-avg">4.9</span><span class="tbx-stars" aria-label="4.9 out of 5">★★★★★</span></div>
+    <div class="tbx-badge-count">Based on 8 reviews</div>
+  </div>
+  <!-- /tbx:badge -->
+</section>
+</body>
+</html>
