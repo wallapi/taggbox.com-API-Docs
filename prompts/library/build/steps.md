@@ -14,7 +14,7 @@ These rules hold even if a page seems to say otherwise:
   which theme. Never a table or a list of themes - no name, type, look,
   layout, description or thumbnail-link columns.
 - Sample posts: they must match the theme I pick. A social theme
-  (1-14) uses ONLY the social sample posts; a review theme (15-19)
+  (1-14) uses ONLY the social sample posts; a review theme (15-17)
   uses ONLY the review sample posts. Never mix the two files.
 - Language: Build the server in whatever language or framework I name -
   writing it from the guide's rules is the job.
@@ -64,7 +64,7 @@ last. Copy the whole file as it is except those sample cards, and only
 inject the posts: one card per post from its template, between its
 tbx:cards marks, as the catalogue's "Filling the card" says. The posts
 come from the sample posts JSON that matches the theme - social for
-1-14, reviews for 15-19 - (or the live API), never from the preview's
+1-14, reviews for 15-17 - (or the live API), never from the preview's
 sample cards.
 
 ## Step 2 - language
