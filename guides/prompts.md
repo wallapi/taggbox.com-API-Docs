@@ -164,6 +164,7 @@ Build me a social widget from my Taggbox gallery, step by step.
 Fetch this RAW and follow it exactly - it lists every step and when to stop and wait for my answer. Start with step 1 now:
 https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/main/prompts/library/build/steps.md
 Step 1 names two links to fetch together, in that same turn - fetch both before you reply, never just the first one, and render the second one (the picker) as an HTML artifact, unchanged.
+There are exactly 17 themes - if you ever show 18, 19, "Rating Badge" or "Badge", you invented them; stop and recheck against the fetched file.
 If you cannot open a link, say so in one line - do not build from memory.
 ```
 
