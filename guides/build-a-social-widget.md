@@ -220,7 +220,7 @@ and it links the other two (the API spec and the design spec), so nothing has
 to be retyped into the prompt:
 
 ```
-BASE = https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/build-2026-09-28d - every BASE/... link, here and in the files you fetch, starts from it.
+BASE = https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/build - every BASE/... link, here and in the files you fetch, starts from it.
 Build me a social widget - a live feed of the posts Taggbox aggregates
 for me. The brief is here: fetch it RAW, follow it exactly, and fetch
 the two specs it links as well:
@@ -268,7 +268,7 @@ The rules are identical everywhere; only the filename changes:
 | ChatGPT (browser)           | paste into Custom Instructions / the top of the chat              |
 
 ```markdown
-BASE = https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/build-2026-09-28d - every BASE/... link, here and in the files you fetch, starts from it.
+BASE = https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/build - every BASE/... link, here and in the files you fetch, starts from it.
 # Taggbox social widget - project context
 
 Data source: GET {API_BASE_URL}/v3/posts
