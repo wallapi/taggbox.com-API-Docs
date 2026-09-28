@@ -8,7 +8,7 @@ Shows the live posts from your Taggbox gallery, in the theme you picked. Until y
 |---|---|
 | `index.php` | The whole widget: settings, Taggbox call, cache, HTML. |
 | `.htaccess` | Keeps `.env` and `cache/` private on Apache hosts. |
-| `themes/` | All 19 themes (`.css` is the look, `.json` is how a card is laid out). |
+| `themes/` | All 17 themes (`.css` is the look, `.json` is how a card is laid out). |
 | `samples/` | The sample posts shown while `ACCESS_TOKEN` is empty. |
 | `.env.example` | The settings - copy it to `.env`. |
 
