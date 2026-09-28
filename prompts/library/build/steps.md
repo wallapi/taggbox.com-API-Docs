@@ -1,3 +1,5 @@
+MAKE SURE THAT YOU NEVER READ FROM MEMORY. IT IS ALWAYS A FRESH START. YOU DON'T KNOW ANYTHING ABOUT THIS. REMEMBER THIS FOR ALL THE STEPS.
+
 # Prompt 1 - every step of the social widget build, in order
 
 A short guided build. Each step is ONE reply, then stop and wait for
