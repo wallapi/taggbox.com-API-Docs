@@ -7,6 +7,13 @@ the first 6 sample posts written into the markup. Every theme uses the SAME
 card markup; only the root class and CSS differ, so the stack files can render
 one card template for all themes.
 
+guides/previews-lite/<theme>.html is the same page with smaller stand-in
+thumbnails and no CSS comments (~15 KB instead of ~80 KB), for ChatGPT and
+Gemini, and guides/theme-gallery-lite.html is the gallery (~5 KB). The linked
+files carry no base64 stand-ins (ChatGPT's browsing tool cannot copy them back
+exactly); guides/previews-lite.txt holds all of them with the stand-ins and a
+small gallery sprite, to attach to the chat.
+
 It also writes templates/themes/<theme>.css + .json (the same CSS and card
 layout, read by the starter code), templates/samples/, and one zip per stack
 in templates/dist/.
@@ -16,6 +23,7 @@ CSS below or a starter:  python3 tools/build-previews.py
 """
 import html
 import json
+import re
 import zipfile
 from datetime import datetime
 from pathlib import Path
@@ -30,6 +38,13 @@ POSTS_PER_PREVIEW = 6
 # Gallery sprite: px per thumbnail and WebP quality. Wider = sharper but a longer page to copy.
 SPRITE_WIDTH = 300
 SPRITE_QUALITY = 40
+# Lite previews (ChatGPT / Gemini): stand-in thumbnail px and WebP quality. Smaller = shorter to copy.
+LITE_OUT = ROOT / "guides" / "previews-lite"
+LITE_THUMB_WIDTH = 80
+LITE_THUMB_QUALITY = 40
+# Lite gallery in previews-lite.txt (attached to ChatGPT / Gemini): sprite px and WebP quality.
+LITE_SPRITE_WIDTH = 72
+LITE_SPRITE_QUALITY = 30
 
 # Theme name -> (file slug, layout, card parts in order).
 # Layouts: grid, list, masonry, collage, slider. Parts: media, head, stars, text.
@@ -82,7 +97,7 @@ GALLERY_PAGE = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<base href="https://raw.githubusercontent.com/wallapi/taggbox.com-API-Docs/build/guides/" target="_blank">
+<base href="https://wallapi.github.io/taggbox.com-API-Docs/guides/" target="_blank">
 <title>Social Widget - themes</title>
 <style>
   body { margin: 0; font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background: #f4f5f8; color: #1f1f1f; }
@@ -111,7 +126,7 @@ TILES
 """
 
 
-def gallery_sprite(ids):
+def gallery_sprite(ids, width=SPRITE_WIDTH, quality=SPRITE_QUALITY):
     """Every thumbnail stacked in one small base64 WebP. The chat that shows the gallery (step 1)
     often blocks outside images, so this is all it shows - it must be sharp yet short, as the AI
     copies it character for character. The real PNGs load on top of it where they can."""
@@ -121,7 +136,7 @@ def gallery_sprite(ids):
     except ImportError:  # no Pillow: keep the sprite already in the page
         old = (ROOT / "guides/theme-gallery.html").read_text()
         return old.split("background: #fff url(", 1)[1].split(")", 1)[0]
-    w = SPRITE_WIDTH
+    w = width
     h = round(w * 701 / 971)
     sheet = Image.new("RGB", (w, h * len(ids)), "white")
     for i, tid in enumerate(ids):
@@ -133,12 +148,15 @@ def gallery_sprite(ids):
         im = im.filter(ImageFilter.UnsharpMask(1, 60, 2))
         sheet.paste(im, ((w - im.width) // 2, i * h + (h - im.height) // 2))
     buf = io.BytesIO()
-    sheet.save(buf, "WEBP", quality=SPRITE_QUALITY, method=6)
+    sheet.save(buf, "WEBP", quality=quality, method=6)
     return "data:image/webp;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
 def build_gallery():
-    """guides/theme-gallery.html: every theme's thumbnail with its number, for step 1."""
+    """guides/theme-gallery.html: every theme's thumbnail with its number, for step 1.
+    guides/theme-gallery-lite.html is the same page with no sprite (~5 KB), for ChatGPT, which
+    opens it with its browsing tool - that cannot hand back a long base64 line exactly. Returns
+    the page with a much smaller sprite, for previews-lite.txt."""
     tiles = []
     n = len(GALLERY)
     for i, (name, (tid, *_)) in enumerate(GALLERY.items(), 1):
@@ -147,9 +165,12 @@ def build_gallery():
         tiles.append(f'  <a class="t" href="previews/{slug}.html"><i style="background-position:0 {pos}">'
                      f'<img src="themes/bigThumb{tid}.png" alt="" loading="lazy" onerror="this.remove()"></i>'
                      f'<b>{i}. {esc(name)}</b></a>')
-    page = (GALLERY_PAGE.replace("SPRITE", gallery_sprite([v[0] for v in GALLERY.values()]))
-            .replace("FRAMES", str(n * 100)).replace("TILES", "\n".join(tiles)))
-    (ROOT / "guides/theme-gallery.html").write_text(page)
+    ids = [v[0] for v in GALLERY.values()]
+    page = GALLERY_PAGE.replace("FRAMES", str(n * 100)).replace("TILES", "\n".join(tiles))
+    (ROOT / "guides/theme-gallery.html").write_text(page.replace("SPRITE", gallery_sprite(ids)))
+    (ROOT / "guides/theme-gallery-lite.html").write_text(
+        page.replace("url(SPRITE) 0 0 / 100% " + str(n * 100) + "% no-repeat", "linear-gradient(135deg, #e6e8f2, #f3e6ee)"))
+    return page.replace("SPRITE", gallery_sprite(ids, LITE_SPRITE_WIDTH, LITE_SPRITE_QUALITY))
 
 
 # Short brand marks for the network badge (no external icon files).
@@ -592,6 +613,43 @@ def build(name, theme_type, style, posts):
 """
 
 
+def lite_posts(posts):
+    """The same posts with a much smaller stand-in thumbnail, for the lite previews. ChatGPT and
+    Gemini cannot fetch a preview whole or write 80 KB back in one reply, but can copy ~15 KB
+    into a canvas. The real <img> still loads on top wherever the canvas allows outside images."""
+    try:
+        import base64, io
+        from PIL import Image
+    except ImportError:  # no Pillow: drop the stand-ins, the gradient tile shows instead
+        Image = None
+    out = []
+    for p in posts:
+        media = []
+        for m in p.get("media") or []:
+            m = dict(m)
+            uri = m.pop("preview_data_uri", "")
+            if Image and uri.startswith("data:image/"):
+                im = Image.open(io.BytesIO(base64.b64decode(uri.split(",", 1)[1]))).convert("RGB")
+                im.thumbnail((LITE_THUMB_WIDTH, LITE_THUMB_WIDTH * 4), Image.LANCZOS)
+                buf = io.BytesIO()
+                im.save(buf, "WEBP", quality=LITE_THUMB_QUALITY, method=6)
+                m["preview_data_uri"] = "data:image/webp;base64," + base64.b64encode(buf.getvalue()).decode()
+            media.append(m)
+        out.append({**p, "media": media})
+    return out
+
+
+def lite(page, name):
+    """Lite preview: the same page with CSS comments and indents dropped - less to copy."""
+    head, rest = page.split("<style>\n", 1)
+    css, tail = rest.split("</style>", 1)
+    css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    css = "\n".join(line.strip() for line in css.splitlines() if line.strip()) + "\n"
+    tail = tail.replace(f"<!-- Social Widget preview: {name}. Sample posts only - calls no API. -->",
+                        f"<!-- Social Widget preview (lite): {name}. Sample posts only - calls no API. -->")
+    return f"{head}<style>\n{css}</style>{tail}"
+
+
 def add(z, path, name):
     """Zip entry with a fixed date, so rebuilding unchanged files gives an identical zip."""
     info = zipfile.ZipInfo(name, date_time=(2026, 1, 1, 0, 0, 0))
@@ -626,10 +684,31 @@ def main():
         (THEME_OUT / f"{slug}.css").write_text(css)
         (THEME_OUT / f"{slug}.json").write_text(json.dumps(meta, indent=2) + "\n")
     print(f"guides/previews/ and templates/themes/: {len(THEMES)} themes")
-    build_gallery()
+    lite_gallery = build_gallery()
+
+    # Lite previews for ChatGPT / Gemini, plus all of them in one file to attach to the chat.
+    LITE_OUT.mkdir(parents=True, exist_ok=True)
+    lite_social, lite_reviews = lite_posts(social), lite_posts(reviews)
+    bundle = [f"===== FILE: gallery.html =====\n{lite_gallery.rstrip()}\n"]
+    for name, (slug, _, _) in THEMES.items():
+        if name not in GALLERY:  # only the themes step 1 offers
+            continue
+        theme = themes[name]
+        posts = lite_reviews if theme["type"] == "review" else lite_social
+        page = lite(build(name, theme["type"], theme["style"], posts), name)
+        # The linked file drops the stand-ins: ChatGPT's browsing tool cannot hand back a long
+        # base64 line exactly. previews-lite.txt keeps them, for a canvas that blocks outside images.
+        (LITE_OUT / f"{slug}.html").write_text(re.sub(r"--tbx-ph:url\(data:image/[^)]*\);?", "", page))
+        bundle.append(f"===== FILE: {slug}.html =====\n{page.rstrip()}\n")
+    (ROOT / "guides/previews-lite.txt").write_text(
+        "# Social Widget - the lite gallery and the lite preview of every theme, for ChatGPT and Gemini.\n"
+        "# Each preview below starts with its own FILE line (five = signs, FILE:, <slug>.html) and runs to the next one.\n"
+        "# Generated by tools/build-previews.py.\n\n" + "\n".join(bundle))
+    print(f"guides/theme-gallery-lite.html, guides/previews-lite/ and guides/previews-lite.txt: {len(bundle) - 1} themes")
+
     # Themes no longer in THEMES must not linger as stale files.
     keep = {v[0] for v in THEMES.values()}
-    for folder, ext in ((OUT, ".html"), (THEME_OUT, ".css"), (THEME_OUT, ".json")):
+    for folder, ext in ((OUT, ".html"), (LITE_OUT, ".html"), (THEME_OUT, ".css"), (THEME_OUT, ".json")):
         for f in folder.glob("*" + ext):
             if f.stem not in keep:
                 f.unlink()
