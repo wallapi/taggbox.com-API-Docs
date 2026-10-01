@@ -58,14 +58,12 @@ Do not ask ChatGPT to copy the gallery or a `guides/previews/` file back
 to you: it cannot read a linked file's exact source (its browsing tool
 changes it, and its Python sandbox has no internet). With only the link,
 steps.md has it write a small page that shows the real gallery or preview
-from GitHub Pages
-(https://wallapi.github.io/taggbox.com-API-Docs/guides/theme-gallery.html);
-when the preview asks "Allow network access?" for
-wallapi.github.io, click **Allow** - that is ChatGPT's own
-check before a preview loads another site. If no Allow prompt comes and
-it says "Could not load it here", the preview blocked the request; open
-the link it gives in your browser, or attach previews-lite.txt - it
-needs no network. To copy the
+(https://wallapi.github.io/taggbox.com-API-Docs/guides/theme-gallery.html),
+loading its source through cdn.jsdelivr.net - ChatGPT's preview blocks
+requests to wallapi.github.io but allows jsDelivr. If the preview asks
+"Allow network access?", click **Allow**. If it says "Could not load it
+here", open the link it gives in your browser, or attach
+previews-lite.txt - it needs no network. To copy the
 lite files into the canvas instead, attach them - see
 [Step by step (Prompt 1 in ChatGPT)](#step-by-step-prompt-1-in-chatgpt).
 
@@ -204,8 +202,8 @@ which.
 - **Step by step: no preview in step 2, only a line of text** -
   previews-lite.txt was not attached. Attach it and reply "Show the preview
   now".
-- **"Could not load it here"** - ChatGPT's preview blocked the request to GitHub Pages and no
-  Allow prompt came. Attach previews-lite.txt and reply "Show the preview
+- **"Could not load it here"** - ChatGPT's preview could reach neither
+  cdn.jsdelivr.net nor GitHub Pages. Attach previews-lite.txt and reply "Show the preview
   again from previews-lite.txt" - it has every preview built in, no
   network needed. Or open the link it gave in your browser.
 - **The preview stops halfway or looks broken** - reply "Give preview.html
