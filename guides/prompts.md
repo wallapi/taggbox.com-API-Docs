@@ -151,6 +151,12 @@ replies "I cannot open the link" and stops. Attach steps.md instead and use
 the Gemini version of this prompt in
 [prompts/browser/gemini.md](../prompts/browser/gemini.md#step-by-step-prompt-1-in-gemini).
 
+**ChatGPT and Gemini preview:** neither can copy a 60-125 KB preview into
+the chat, so attach [previews-lite.txt](previews-lite.txt) with steps.md -
+the same 17 previews at 10-18 KB each ([previews-lite/](previews-lite)),
+shown in a canvas. ChatGPT's version of the prompt is in
+[prompts/browser/chatgpt.md](../prompts/browser/chatgpt.md#step-by-step-prompt-1-in-chatgpt).
+
 ## Prompt A — the short alternative (AI that can browse)
 
 Same result, driven by the build brief instead of `common.md`: its four parts
